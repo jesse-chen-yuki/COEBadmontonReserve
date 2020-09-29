@@ -10,29 +10,96 @@ from selenium.webdriver.common.action_chains import ActionChains
 import logging
 
 # TODO:
-# implement list of session to be booked in priority order.
+# early login before start time -- REJECT due to slower process
+# find book element into wait for element to exist. -- REJECT due to logical order
+# change bookonesession to have precise session booking instead of iteration. -- DONE
+# implement list of session to be booked in priority order or reverse order -- DONE by list pop
 # add logging feature
-# real world test with test = 0
 # add unit testing stuff
+# real world test with test = 0
+# log the output for analysis
 
-PATH = "C:\Program Files (x86)\chromedriver_win32\chromedriver.exe"
-driver = webdriver.Chrome(PATH)
+
 # testing variables
 test = 0
 cancel = 0
 debug = 1
+PATH = "C:\Program Files (x86)\chromedriver_win32\chromedriver.exe"
+driver = webdriver.Chrome(PATH)
+
+def preProcess():
+    sessionsToBeBooked = 3
+    dayahead = 14
+    if test:
+        # current 4 day ahead point to 10/02
+        # used up testing date oct 01 09
+        # Need to cancel all of: 10/02
+        dayahead = 15
+
+    targetday = date.today() + timedelta(days=dayahead)
+    # default add 14 days, for programming may set to be closer
+
+    dateOfTargetDay = targetday.strftime("%w")
+    if debug:
+        print("date of target day: ", dateOfTargetDay)
+    if dateOfTargetDay == "0":
+        # Sunday starting 1045 as session 2
+        print("in Sunday")
+        session = 2
+    elif dateOfTargetDay == "1":
+        # Mon start 1545 as session 7
+        print("in Tuesday")
+        session = 2
+    elif dateOfTargetDay == "2":
+        # Tues start 1545 as session 7
+        print("in Tuesday")
+        session = 7
+    elif dateOfTargetDay == "3":
+        # Wed start 1545 as session 7
+        print("in Wednesday")
+        session = 7
+    elif dateOfTargetDay == "5":
+        # Wed start 1415 as session 6
+        print("in Friday")
+        session = 6
+    elif dateOfTargetDay == "6":
+        # Sat start 1345 as session 5
+        print("in Saturday")
+        session = 5
+    else:
+        session = 3
+
+    if test:
+        # for testing
+        sessionsToBeBooked = 2
+        session = 2  # to be changed every successful confirmation
+
+    sessionList = makeSessionList(sessionsToBeBooked, session)
+    # sessionList.reverse()
+
+    # change targetday into input format
+    targetday = targetday.strftime('%m/%d/%Y')
+    return sessionList, targetday
+
+
+
+def login():
+    id = driver.find_element_by_id("EmailAddress")
+    id.send_keys("jesse.chen@yahoo.ca")
+    pw = driver.find_element_by_id("Password")
+    pw.send_keys("AyanamiRei:0COER")
+    pw.send_keys(Keys.RETURN)
 
 
 def standby():
     now = datetime.now()
     if test:
-        today830 = now.replace(hour=0, minute=11, second=0, microsecond=0)
+        today830 = now.replace(hour=0, minute=1, second=0, microsecond=0)
     else:
         today830 = now.replace(hour=8, minute=30, second=0, microsecond=0)
         # use a close time to test the while
 
     while now < today830:
-
         if int(today830.strftime("%H")) - int(now.strftime("%H")) > 1:
             print("more than 1 hr early")
             time.sleep(3600)
@@ -48,150 +115,131 @@ def standby():
         now = datetime.now()
 
 
-def reserve():
-    sessionsToBeBooked = 3
-    maxtry = sessionsToBeBooked + 3
+def makeSessionList(sessionsToBeBooked, session):
+    aList = [session]
+    sessionsToBeBooked -= 1
+    while sessionsToBeBooked > 0:
+        session += 1
+        aList.append(session)
+        sessionsToBeBooked -= 1
+    return aList
+
+
+def reserve(sessionList, targetday):
+    origListSize = len(sessionList)
     attempt = 1
-    dayahead = 14
-    if test:
-        dayahead = 1
-
-    targetday = date.today() + timedelta(days=dayahead)
-    # default add 14 days, for programming may set to be closer
-
-    dateOfToday = targetday.strftime("%w")
-    if debug:
-        print("dateoftoday: %i", dateOfToday)
-    if dateOfToday == "0":
-        # Sunday starting 1045 as session 2
-        print("in Sunday")
-        session = 2
-    elif dateOfToday == "1":
-        # Mon start 1715 as session 8
-        print("in Tuesday")
-        session = 2
-    elif dateOfToday == "2":
-        # Tues start 1715 as session 8
-        print("in Tuesday")
-        session = 8
-    elif dateOfToday == "3":
-        # Wed start 1715 as session 8
-        print("in Wednesday")
-        session = 8
-    elif dateOfToday == "6":
-        # Sat start 1345 as session 5
-        print("in Saturday")
-        session = 5
-    else:
-        session = 3
-
-    if test:
-        # for testing
-        sessionsToBeBooked = 3
-        session = 2  # to be changed every successful confirmation
-
-    # change targetday into input format
-    targetday = targetday.strftime('%m/%d/%Y')
-
-    # PATH = "C:\Program Files (x86)\chromedriver_win32\chromedriver.exe"
-    # global driver
-    # driver = webdriver.Chrome(PATH)
-
-    while sessionsToBeBooked:
+    maxtry = len(sessionList) + 5
+    while len(sessionList) > 0:
         if debug:
-            print("attempt: %i", attempt)
+            print("attempt: ", attempt)
             print(datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-        sessionsToBeBooked, session = bookOneSession(session, sessionsToBeBooked, targetday)
-
-        if debug:
-            print(sessionsToBeBooked, session)
+            print("to be booked session list: ", sessionList)
+        sessionList = bookOneSession(sessionList, targetday)
         attempt += 1
         if attempt > maxtry:
-            checkout()
+            # if there is something in the cart
+            if debug:
+                print("reached max try")
+            if len(sessionList) < origListSize:
+                #things in the cart
+                if cancel:
+                    if debug:
+                        print("cancelling cart")
+                    cancelCart()
+                else:
+                    if debug:
+                        print("checkout")
+                    checkout()
+
             break
 
 
-def bookOneSession(session, sessionsToBeBooked, targetday):
+def bookOneSession(sessionList, targetday):
     # while more sessions to be booked
     driver.get("https://movelearnplay.edmonton.ca/COE/public/category/browse/TCRCCOURTBAD")
+    if test:
+        endDateBox = driver.find_element_by_id("EndDate")
+        endDateBox.clear()
+        endDateBox.send_keys(targetday)
+        endDateBox.send_keys(Keys.RETURN)
     startDateBox = driver.find_element_by_id("StartDate")
     startDateBox.clear()
     startDateBox.send_keys(targetday)
     startDateBox.send_keys(Keys.RETURN)
     startDateBox.send_keys(Keys.RETURN)
     if debug:
-        print("sessionsToBeBooked: %i", sessionsToBeBooked)
+        # print(sessionList)
         print(driver.find_element_by_class_name("table").text)
     links = driver.find_elements_by_class_name("BookNow")
-    counter = 1
-    for link in links:
-        # print("enter link")
-        if counter == session:
-            # if current link is the target link
-            link.send_keys(Keys.RETURN)
-            try:
-                element = WebDriverWait(driver, 3).until(
-                    EC.presence_of_element_located((By.NAME, "PriceGroupQuantities[MEMBER]"))
-                )
-            except:
-                print("cant find price quantity to enter")
-                time.sleep(50)
 
-            # time.sleep(1)
-            qty = driver.find_element_by_name("PriceGroupQuantities[MEMBER]")
-            qty.clear()
-            qty.send_keys("1")
-            qty.send_keys(Keys.RETURN)
+    if len(links) == 0:
+        if debug:
+            print("no available booking")
+        return sessionList
+    currentSessionIndex = sessionList.pop()
+    try:
+        # try to get the aimed session assuming all session available
+        links[currentSessionIndex - 1].send_keys(Keys.RETURN)
+    except:
+        sessionList.insert(0,currentSessionIndex)
+        return sessionList
+    try:
+        qty = WebDriverWait(driver, 3).until(
+            EC.presence_of_element_located((By.NAME, "PriceGroupQuantities[MEMBER]"))
+        )
 
-            try:
-                element = WebDriverWait(driver, 3).until(
-                    EC.presence_of_element_located((By.ID, "BookingModal"))
-                )
-            except:
-                print("can't find cart")
-                time.sleep(50)
-            # time.sleep(1)
+        # element = WebDriverWait(driver, 3).until(
+        #    EC.presence_of_element_located((By.NAME, "PriceGroupQuantities[MEMBER]"))
+        # )
 
-            sessionsToBeBooked -= 1
-            if sessionsToBeBooked == 0:
-                if cancel:
-                    cancelCart()
-                else:
-                    checkout()
-                return sessionsToBeBooked, session
+    except:
+        print("cant find price quantity to enter")
+        time.sleep(50)
 
-            session += 1
-            driver.get("https://movelearnplay.edmonton.ca/COE/public/category/browse/TCRCCOURTBAD")
-            break
+    # time.sleep(1)
+    # qty = driver.find_element_by_name("PriceGroupQuantities[MEMBER]")
+    qty.clear()
+    qty.send_keys("1")
+    qty.send_keys(Keys.RETURN)
 
-        elif counter == 15:
-            logging.DEBUT("counter over 15")
-            break
+    try:
+        element = WebDriverWait(driver, 3).until(
+            EC.presence_of_element_located((By.ID, "BookingModal"))
+        )
+        # sessionsToBeBooked -= 1
+    except:
+        print("can't find cart")
+        time.sleep(50)
+    # time.sleep(1)
 
-        counter += 1
-        # increase target link
-    return sessionsToBeBooked, session
+    if len(sessionList) == 0:
+        if cancel:
+            cancelCart()
+        else:
+            checkout()
+        return sessionList
+
+    # session += 1
+    driver.get("https://movelearnplay.edmonton.ca/COE/public/category/browse/TCRCCOURTBAD")
+    return sessionList
 
 
 def cancelCart():
     time.sleep(2)
     driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/ConfirmBasketCancellation")
+    # time.sleep(2)
     ccart = driver.find_element_by_xpath("//input[@type='submit']")
     ccart.send_keys(Keys.RETURN)
     time.sleep(2)
 
 
 def checkout():
+    # assuming card is non-empty
     time.sleep(1)
     driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
-    id = driver.find_element_by_id("EmailAddress")
-    id.send_keys("jesse.chen@yahoo.ca")
-    pw = driver.find_element_by_id("Password")
-    pw.send_keys("AyanamiRei:0COER")
     print(datetime.now().strftime("submit order: %m/%d/%Y, %H:%M:%S"))
-    pw.send_keys(Keys.RETURN)
+    login()
     # time.sleep(2)
-
     # may or may not get a request to agree to condition
 
     try:
@@ -202,7 +250,7 @@ def checkout():
             element = WebDriverWait(driver, 240).until(
                 EC.presence_of_element_located((By.ID, "BasketConfirmed"))
             )
-            element = driver.find_element_by_id("BasketConfirmed")
+            # element = driver.find_element_by_id("BasketConfirmed")
             print(element.text)
         except:
             time.sleep(240)
@@ -238,12 +286,11 @@ def checkout():
 
 
 def main():
-    # login with account
-    # login()
-
+    # pre-login is slower
+    sessionList, targetday = preProcess()
     standby()
     print(datetime.now().strftime("start reserve time: %m/%d/%Y, %H:%M:%S"))
-    reserve()
+    reserve(sessionList, targetday)
     print(datetime.now().strftime("end reserve time: %m/%d/%Y, %H:%M:%S"))
     time.sleep(2)
     driver.quit()
