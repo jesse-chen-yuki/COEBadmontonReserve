@@ -1,0 +1,119 @@
+# resolve access to checkout too soon before complete session
+
+date of target day:  1
+in Monday
+10/05/2020, 08:29:55
+start reserve time: 10/05/2020, 08:29:55
+attempt:  1
+10/05/2020, 08:29:55
+to be booked session list:  [5, 6, 7]
+Date Time Class Spaces Location Venue Availability
+Mon, 19-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+no available booking
+attempt:  2
+10/05/2020, 08:29:58
+to be booked session list:  [5, 6, 7]
+Date Time Class Spaces Location Venue Availability
+Mon, 19-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+no available booking
+attempt:  3
+10/05/2020, 08:30:01
+to be booked session list:  [5, 6, 7]
+Date Time Class Spaces Location Venue Availability
+Mon, 19-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Mon, 19-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+no available booking
+attempt:  4
+10/05/2020, 08:30:03
+to be booked session list:  [5, 6, 7]
+Date Time Class Spaces Location Venue Availability
+Mon, 19-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+attempt:  5
+10/05/2020, 08:30:08
+to be booked session list:  [5, 6]
+Date Time Class Spaces Location Venue Availability
+Mon, 19-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 3 spot(s) left
+attempt:  6
+10/05/2020, 08:30:28
+to be booked session list:  [5]
+Date Time Class Spaces Location Venue Availability
+Mon, 19-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Mon, 19-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 4 spot(s) left
+Mon, 19-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 2 spot(s) left
+Mon, 19-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 3 spot(s) left
+submit order: 10/05/2020, 08:30:38
+cant find email to enter

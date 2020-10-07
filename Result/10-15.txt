@@ -1,0 +1,72 @@
+date of target day:  4
+in Thursday
+10/01/2020, 08:29:59
+10/01/2020, 08:30:00
+start reserve time: 10/01/2020, 08:30:00
+attempt:  1
+10/01/2020, 08:30:00
+to be booked session list:  [6, 7, 8]
+Date Time Class Spaces Location Venue Availability
+Thu, 15-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 3 spot(s) left
+Thu, 15-Oct-20 5:15 PM - 6:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 3 spot(s) left
+attempt:  2
+10/01/2020, 08:30:07
+to be booked session list:  [6, 7]
+Date Time Class Spaces Location Venue Availability
+Thu, 15-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 3 spot(s) left
+Thu, 15-Oct-20 5:15 PM - 6:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 1 spot(s) left
+attempt:  3
+10/01/2020, 08:30:16
+to be booked session list:  [6]
+Date Time Class Spaces Location Venue Availability
+Thu, 15-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 4 spot(s) left
+Thu, 15-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 15-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Full
+Thu, 15-Oct-20 5:15 PM - 6:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Full
+submit order: 10/01/2020, 08:30:43
+waiting for confirmation
+Order Confirmation 2001483
+Your purchase is complete. You will receive an email confirmation shortly. Thank you for choosing to move, learn and play at the City of Edmonton.
+end reserve time: 10/01/2020, 08:35:55
+
+Process finished with exit code 0
