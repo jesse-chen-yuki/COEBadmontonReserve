@@ -1,16 +1,12 @@
-from _ast import Assert
-
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 from datetime import date, timedelta, datetime
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
-import logging
 
 # TODO:
 # add logging feature
@@ -32,19 +28,20 @@ import logging
 
 # testing variables
 test = 1
-cancel = 1
+cancel = 0
 debug = 1
 PATH = "C:\Program Files (x86)\chromedriver_win32\chromedriver.exe"
 driver = webdriver.Chrome(PATH)
+
 
 def preProcess():
     sessionsToBeBooked = 3
     dayahead = 14
     if test:
-        # current day ahead point to oct 15
-        # Need to cancel all of: oct
-        # used up testing date oct *15
-        dayahead = 9
+        # current day ahead point to oct 8
+        # Need to cancel all of: oct 8: 3:45
+        # used up testing date oct *7
+        dayahead = 2
 
     targetday = date.today() + timedelta(days=dayahead)
     # default add 14 days, for programming may set to be closer
@@ -85,7 +82,7 @@ def preProcess():
 
     if test:
         # for testing
-        sessionsToBeBooked = 2
+        sessionsToBeBooked = 3
         session = 1  # to be changed every successful confirmation
 
     sessionList = makeSessionList(sessionsToBeBooked, session)
@@ -94,8 +91,6 @@ def preProcess():
     # change targetday into input format
     targetday = targetday.strftime('%m/%d/%Y')
     return sessionList, targetday
-
-
 
 
 def standby():
@@ -144,13 +139,13 @@ def reserve(sessionList, targetday):
             print("to be booked session list: ", sessionList)
         sessionList = bookOneSession(sessionList, targetday)
         attempt += 1
-        #print(len(sessionList), sessionList, min(sessionList))
+        # print(len(sessionList), sessionList, min(sessionList))
         if attempt > maxtry:
             if debug:
                 print("reached max try")
             # if there is something in the cart
             if len(sessionList) < origListSize:
-                #things in the cart
+                # things in the cart
                 if cancel:
                     if debug:
                         print("cancelling cart")
@@ -161,6 +156,7 @@ def reserve(sessionList, targetday):
                     checkout()
             break
 
+
 def cartEmpty():
     driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
     try:
@@ -168,13 +164,11 @@ def cartEmpty():
         return 1
         # element=driver.find_element_by_partial_link_text("Your Cart is currently empty")
     except NoSuchElementException:
-        #print("No element found")
+        # print("No element found")
         return 0
-    return 1
 
 
 def bookOneSession(sessionList, targetday):
-
     driver.get("https://movelearnplay.edmonton.ca/COE/public/category/browse/TCRCCOURTBAD")
     if test:
         endDateBox = driver.find_element_by_id("EndDate")
@@ -216,7 +210,7 @@ def bookOneSession(sessionList, targetday):
         # return with original list
         if debug:
             print("specific session becomes unavailable ")
-        sessionList.insert(0,currentSessionIndex)
+        sessionList.insert(0, currentSessionIndex)
         return sessionList
     try:
         qty = WebDriverWait(driver, 3).until(
@@ -253,18 +247,16 @@ def bookOneSession(sessionList, targetday):
 def cancelCart():
     time.sleep(1)
     driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/ConfirmBasketCancellation")
-    #time.sleep(2)
+    # time.sleep(2)
 
     try:
         ccart = WebDriverWait(driver, 3).until(
-            EC.presence_of_element_located((By.XPATH,"//input[@type='submit']"))
+            EC.presence_of_element_located((By.XPATH, "//input[@type='submit']"))
         )
+        ccart.send_keys(Keys.RETURN)
     except:
         print("cant find price quantity to enter")
         time.sleep(600)
-
-    #ccart = driver.find_element_by_xpath("//input[@type='submit']")
-    ccart.send_keys(Keys.RETURN)
     time.sleep(2)
 
 
@@ -279,9 +271,9 @@ def login():
 def checkout():
     confirmation = 0
     # assuming cart is non-empty
-    time.sleep(2)
-    driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
 
+    time.sleep(1)
+    driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
 
     # try:
     #     txt = WebDriverWait(driver, 3).until(
@@ -293,20 +285,18 @@ def checkout():
 
     print(datetime.now().strftime("submit order: %m/%d/%Y, %H:%M:%S"))
 
-    #ISSUE
+    # ISSUE
     # verify no error, if no error then login, if error then cancel cart item with error
     try:
         if debug:
             print("finding email to enter")
             print("check if on the correct checkout page")
-        id = WebDriverWait(driver, 20).until(
+        id = WebDriverWait(driver, 1).until(
             EC.presence_of_element_located((By.ID, "EmailAddress"))
         )
     except:
         print("cant find email to enter")
-        time.sleep(600)
-        return ()
-
+        driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
     login()
     # time.sleep(2)
     # may or may not get a request to agree to condition
@@ -332,9 +322,9 @@ def checkout():
                     print("did not find basket confirmation")
 
                 # wait for presence of error message
-                #element = WebDriverWait(driver, 60).until(
+                # element = WebDriverWait(driver, 60).until(
                 #   EC.presence_of_element_located((By.ID, "BasketConfirmed"))
-                #)
+                # )
 
                 time.sleep(60)
         return ()
@@ -357,6 +347,8 @@ def checkout():
         element = driver.find_element_by_id("BasketConfirmed")
         print(element.text)
     except:
+        if debug:
+            print("need manual assistance")
         time.sleep(180)
 
 
