@@ -1,4 +1,9 @@
 with debug output
+
+
+10/22   0/3 incomplete  Investigate into this one
+
+old history:
 10/10   2/3
 10/11   2/3
 10/12   2/2
