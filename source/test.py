@@ -1,4 +1,4 @@
-
+import time
 
 from selenium import webdriver
 from selenium.webdriver import ActionChains
@@ -22,6 +22,13 @@ driver.get(test_url)
 # time.sleep(30)
 WebDriverWait(driver, 6).until(ex_cond.presence_of_element_located((By.CLASS_NAME, "table")))
 
+try:
+    print(driver.find_element_by_class_name("table").text)
+except Exception as e:
+    print("Oops!", e.__class__, "occurred.")
+    print("not able to print cart table")
+
+
 num_rows = len(driver.find_elements_by_xpath("//*[@class='table']/tbody/tr"))
 num_columns = len(driver.find_elements_by_xpath("//*[@class = 'table']/tbody/tr[2]/td"))
 
@@ -44,7 +51,9 @@ for rm in reversed(error_list):
     except Exception as e:
         print(str(e))
         print("scroll stuff")
+    time.sleep(1)
     remove_buttons[rm-1].click()
+    driver.back()
 
 
 driver.quit()

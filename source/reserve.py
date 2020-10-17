@@ -11,39 +11,37 @@ from selenium.common.exceptions import NoSuchElementException
 # TODO:
 # add logging feature
 # add unit testing stuff
-# examine booking issue conditions each time to check for resubmission.
-# real world test with test = 0
 # log the output for analysis
 
-# need to resolve incomplete order after submission
-# need to cut down on response time as spots get taken.
-# look for error as the cart becomes unavailable and cancel the unavailable item
-# examine closely when does check drop cart problem occur, retry from beginning
-
-# branch, continuously find session, if not available keep trying until fulfilled.
-
-# try again after 21 minutes
-# case to look at 10-22
-
-# change in strategy: book 2 only, wait for 20 min for second round
+# branch, adding other rec centers
+# change in strategy: book 2 only, wait for 20 min for second round manual
+# print cart items before submit -- DONE
+# branch, pre log in before, add sessions -- DONE
+# standby using timer and only click on submit button instead of reloading webpage
+# rewrite session selector using start session, number of sessions, location select
+# part two of booking, wait until session change from full to book and book it.
 
 
 # testing variables
-test = 1
-cancel = 1
+test = 0
+cancel = 0
 debug = 1
+pre_login = 1
 PATH = "C:\Program Files (x86)\chromedriver_win32\chromedriver.exe"
 driver = webdriver.Chrome(PATH)
 
 
 def pre_process():
-    sessions_to_book = 2
+    if pre_login:
+        driver.get("https://movelearnplay.edmonton.ca/COE/public/Logon/Logon")
+        login()
+    sessions_to_book = 1
     days_ahead = 14
     if test:
-        # available test dates 15 19 22 23
-        # current day ahead point to oct 16
-        # Need to cancel all of: oct 15 16 19
-        days_ahead = 8
+        # available test dates 20+
+        # current day ahead point to oct 22
+        # Need to cancel all of: oct 22 23 27 29
+        days_ahead = 14
 
     target_day = date.today() + timedelta(days=days_ahead)
     # default add 14 days, for programming may set to be closer
@@ -68,6 +66,8 @@ def pre_process():
 
 
 def session_selector(date_of_target_day):
+    # assuming booking 2 sessions
+    # branch may change to total number of sessions and then subtract to get last 2 or 3
     if date_of_target_day == "0":
         # Sunday
         print("in Sunday")
@@ -79,15 +79,15 @@ def session_selector(date_of_target_day):
     elif date_of_target_day == "2":
         # Tues
         print("in Tuesday")
-        session = 5
+        session = 6
     elif date_of_target_day == "3":
         # Wed
         print("in Wednesday")
-        session = 4
+        session = 7
     elif date_of_target_day == "4":
         # Thurs
         print("in Thursday")
-        session = 6
+        session = 7
     elif date_of_target_day == "5":
         # Fri
         print("in Friday")
@@ -95,7 +95,7 @@ def session_selector(date_of_target_day):
     elif date_of_target_day == "6":
         # Sat
         print("in Saturday")
-        session = 5
+        session = 4
     else:
         session = 3
     return session
@@ -104,7 +104,7 @@ def session_selector(date_of_target_day):
 def standby():
     now = datetime.now()
     if test:
-        today830 = now.replace(hour=21, minute=59, second=59, microsecond=0)
+        today830 = now.replace(hour=7, minute=59, second=59, microsecond=0)
     else:
         today830 = now.replace(hour=8, minute=29, second=58, microsecond=0)
         # use a close time to test the while
@@ -178,7 +178,18 @@ def cart_is_empty():
 
 
 def book_session(session_list, target_day):
+    # assume target_day is entered and submit clicked, ready to click on 'book now'
+
     driver.get("https://movelearnplay.edmonton.ca/COE/public/category/browse/TCRCCOURTBAD")
+    # try:
+    #     start_date_box = WebDriverWait(driver, 10).until(
+    #         ex_cond.presence_of_element_located((By.ID, "StartDate"))
+    #     )
+    #     print(start_date_box)
+    # except Exception as e:
+    #     print("Oops!", e.__class__, "occurred.")
+    #     print("cant find date box")
+    #     driver.get("https://movelearnplay.edmonton.ca/COE/public/category/browse/TCRCCOURTBAD")
     if test:
         end_date_box = driver.find_element_by_id("EndDate")
         end_date_box.clear()
@@ -211,7 +222,7 @@ def book_session(session_list, target_day):
         return session_list
     current_session = session_list.pop()
     try:
-        # try to get the aimed session assuming all session available
+        # try to click on aimed session assuming all session available
         if debug:
             print("try to click on specific session")
         links[current_session - 1].send_keys(Keys.RETURN)
@@ -232,21 +243,9 @@ def book_session(session_list, target_day):
     except Exception as e:
         print("Oops!", e.__class__, "occurred.")
         print("cant find price quantity to enter")
-
         time.sleep(5)
 
-    try:
-        # wait until find cart page
-        if debug:
-            print("try finding cart")
-        WebDriverWait(driver, 10).until(
-            ex_cond.presence_of_element_located((By.XPATH, "//*[contains(text(),'Cart')]"))
-        )
-    except Exception as e:
-        print("Oops!", e.__class__, "occurred.")
-        print("can't find cart")
-        time.sleep(50)
-    # time.sleep(1)
+    # driver.get("https://movelearnplay.edmonton.ca/COE/public/category/browse/TCRCCOURTBAD")
 
     if len(session_list) == 0:
         if cancel:
@@ -260,6 +259,7 @@ def book_session(session_list, target_day):
 
 
 def cancel_cart():
+    display_basket()
     cancel_option = 2
     driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket")
     if cancel_option == 1:
@@ -288,14 +288,16 @@ def cancel_cart():
             error_list = []
             for t_row in range(2, (num_rows + 1), 2):
                 error_list.append(int(t_row / 2))
-            print(error_list)
+            if debug:
+                print(error_list)
             for rm in reversed(error_list):
                 remove_buttons = driver.find_elements_by_class_name("BasketItemRemoveLink")
                 try:
                     ActionChains(driver).move_to_element(remove_buttons[rm - 1]).perform()
                 except Exception as e:
-                    print("Oops!", e.__class__, "occurred.")
-                    print("scroll stuff")
+                    if debug:
+                        print("Oops!", e.__class__, "occurred.")
+                        print("scroll stuff")
                 time.sleep(1)
                 remove_buttons[rm - 1].click()
         except Exception as e:
@@ -321,14 +323,13 @@ def handle_cart_error():
     try:
         if debug:
             print("in handle error trying to find session error")
-        WebDriverWait(driver, 120).until(ex_cond.presence_of_element_located((By.CLASS_NAME, "table")))
+        WebDriverWait(driver, 180).until(ex_cond.presence_of_element_located((By.CLASS_NAME, "table")))
         num_rows = len(driver.find_elements_by_xpath("//*[@class='table']/tbody/tr"))
         # num_columns = len(driver.find_elements_by_xpath("//*[@class = 'table']/tbody/tr[2]/td"))
 
         # elem_found = False
 
         error_list = []
-
         for t_row in range(2, (num_rows + 1), 2):
             final_xpath = before_xpath_1 + str(t_row) + after_xpath +\
                          before_xpath_2 + str(1) + after_xpath
@@ -336,7 +337,8 @@ def handle_cart_error():
             if "Error" in cell_text:
                 error_list.append(int(t_row / 2))
 
-        print(error_list)
+        if debug:
+            print(error_list)
 
         for rm in reversed(error_list):
             remove_buttons = driver.find_elements_by_class_name("BasketItemRemoveLink")
@@ -347,7 +349,6 @@ def handle_cart_error():
                 print("in removing error session place")
             time.sleep(1)
             remove_buttons[rm - 1].click()
-
     except Exception as e:
         print("Oops!", e.__class__, "occurred.")
         if debug:
@@ -359,26 +360,42 @@ def handle_cart_error():
     return 1
 
 
+def display_basket():
+    driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket")
+    if debug:
+        try:
+            print(driver.find_element_by_class_name("table").text)
+        except Exception as e:
+            print("Oops!", e.__class__, "occurred.")
+            print("not able to print cart table after add quantity")
+
+
 def checkout():
+    if debug:
+        display_basket()
     confirmation = 0
     # assuming cart is non-empty
-    time.sleep(1)
+
+    # ISSUE: after last session added to cart, not automatically jumping to the checkout page.
+    # time.sleep(1)
     driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
+    time.sleep(1)
     print(datetime.now().strftime("submit order: %m/%d/%Y, %H:%M:%S"))
 
-    try:
-        if debug:
-            print("finding email to enter")
-            print("check if on the correct checkout page")
-        WebDriverWait(driver, 10).until(
-            ex_cond.presence_of_element_located((By.ID, "EmailAddress"))
-        )
-    except Exception as e:
-        print("Oops!", e.__class__, "occurred.")
-        print("cant find email to enter")
-        driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
-        time.sleep(1)
-    login()
+    if not pre_login:
+        try:
+            if debug:
+                print("finding email to enter")
+                print("check if on the correct checkout page")
+            WebDriverWait(driver, 2).until(
+                ex_cond.presence_of_element_located((By.ID, "EmailAddress"))
+            )
+        except Exception as e:
+            print("Oops!", e.__class__, "occurred.")
+            print("cant find email to enter, trying to checkout again")
+            driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
+            time.sleep(1)
+        login()
 
     # ISSUE:
     # check for potential submission error after login, need code to automatically resubmit order.

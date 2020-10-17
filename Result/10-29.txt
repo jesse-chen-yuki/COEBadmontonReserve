@@ -1,0 +1,140 @@
+# sessions submitted @ 11 sec is too slow to secure last 2 spots.
+# try pre-login next time.
+
+C:\Users\Yuki\AppData\Local\Programs\Python\Python38-32\python.exe C:/Users/Yuki/PycharmProjects/COEBadmintonReserve/source/reserve.py
+date of target day:  4
+in Thursday
+10/15/2020, 08:29:58
+start reserve time: 10/15/2020, 08:29:58
+attempt:  1
+10/15/2020, 08:29:58
+to be booked session list:  [7, 8]
+Date Time Class Spaces Location Venue Availability
+Thu, 29-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Thu, 29-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Thu, 29-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Thu, 29-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Thu, 29-Oct-20 5:15 PM - 6:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+no available booking
+attempt:  2
+10/15/2020, 08:30:00
+to be booked session list:  [7, 8]
+Date Time Class Spaces Location Venue Availability
+Thu, 29-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Thu, 29-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Thu, 29-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Thu, 29-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+Thu, 29-Oct-20 5:15 PM - 6:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Not Yet Available to Book
+no available booking
+attempt:  3
+10/15/2020, 08:30:01
+to be booked session list:  [7, 8]
+Date Time Class Spaces Location Venue Availability
+Thu, 29-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 29-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 29-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 29-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 3 spot(s) left
+Thu, 29-Oct-20 5:15 PM - 6:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 3 spot(s) left
+try to click on specific session
+attempt:  4
+10/15/2020, 08:30:04
+to be booked session list:  [7]
+Date Time Class Spaces Location Venue Availability
+Thu, 29-Oct-20 6:45 AM - 8:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 29-Oct-20 8:15 AM - 9:30 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 9:45 AM - 11:00 AM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 11:15 AM - 12:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Information:
+Please be aware that music from the group fitness class may be heard at various OH&S acceptable volumes
+Thu, 29-Oct-20 12:45 PM - 2:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 29-Oct-20 2:15 PM - 3:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Book Now
+Thu, 29-Oct-20 3:45 PM - 5:00 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Reserve Now - 3 spot(s) left
+Thu, 29-Oct-20 5:15 PM - 6:30 PM Badminton/Pickleball Admissions Limited Spaces Badminton/Pickleball Court Terwillegar Recreation Centre
+Full
+try to click on specific session
+Item Quantity Price Group Value
+Recreation Centre Admission Courts
+Terwillegar Recreation Centre - Badminton/Pickleb - (2020-10-29 5:15 PM - 2020-10-29 6:30 PM) 1 Member $0.00
+Remove
+Recreation Centre Admission Courts
+Terwillegar Recreation Centre - Badminton/Pickleb - (2020-10-29 3:45 PM - 2020-10-29 5:00 PM) 1 Member $0.00
+Remove
+Total includes tax of $0.00     $0.00
+submit order: 10/15/2020, 08:30:11
+finding email to enter
+check if on the correct checkout page
+in handle error trying to find session error
+[1, 2]
+Oops! <class 'selenium.common.exceptions.MoveTargetOutOfBoundsException'> occurred.
+in removing error session place
+Oops! <class 'selenium.common.exceptions.MoveTargetOutOfBoundsException'> occurred.
+in removing error session place
+Oops! <class 'IndexError'> occurred.
+waiting for confirmation
+Order Confirmation 2046280
+Your purchase is complete. You will receive an email confirmation shortly. Thank you for choosing to move, learn and play at the City of Edmonton.
+end reserve time: 10/15/2020, 08:33:57
+
+Process finished with exit code 0
