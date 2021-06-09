@@ -7,106 +7,136 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ex_cond
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
+import source.secrets as ss
 
 # TODO:
+# short term goals:
+
+# change finding correct slot as more pages exist now
+# error detection and handling logic
+# after deletion of error, need checkout
+# change in strategy: book 2 only, wait for 20 min for second round manual
+# part two of booking, wait until session change from full to book and book it.
+# recording of online availability for 3 minutes with 1 sec interval
+
+
+# need testing:
+# rewrite session selector using start session, number of sessions, location select -- DONE
+
+# long term goals:
 # add logging feature
 # add unit testing stuff
 # log the output for analysis
-
-# branch, adding other rec centers
-# change in strategy: book 2 only, wait for 20 min for second round manual
-# print cart items before submit -- DONE
-# branch, pre log in before, add sessions -- DONE
-# standby using timer and only click on submit button instead of reloading webpage
-# rewrite session selector using start session, number of sessions, location select
-# part two of booking, wait until session change from full to book and book it.
+# study branch pull merge git stuff
+# branch make single session booking with multiple account, multi-thread.
+# make function to print out availability as time elapse for the first 5 minutes, second by second
 
 
 # testing variables
-test = 0
-cancel = 0
+test = 1
+cancel = 1
 debug = 1
 pre_login = 1
+
 PATH = "C:\Program Files (x86)\chromedriver_win32\chromedriver.exe"
 driver = webdriver.Chrome(PATH)
 
 
 def pre_process():
+    def select_location(loc_num):
+        # 1 as TCRC, 2 as Meadows, 3 as Stadium
+        location = ''
+        if loc_num == 1:
+            location = 'TCRC'
+        elif loc_num == 2:
+            location = 'TMCRC'
+        elif loc_num == 3:
+            location = 'COMWTH'
+        link_pre = 'https://movelearnplay.edmonton.ca/COE/public/category/browse/'
+        # link_post = 'BADM'
+        link_post = 'COURT'  # after covid
+        return link_pre + location + link_post
+
+    def make_session_list(first, num_to_book):
+        session = first
+        session_list_in = [session]
+        num_to_book -= 1
+        while num_to_book > 0:
+            session += 1
+            session_list_in.append(session)
+            num_to_book -= 1
+        return session_list_in
+
+    def session_select(day_ahead_in):
+        # rule for deciding which session to book:
+        # book 2 session only on weekday, 1 session on weekend
+        # always book 3rd and 2nd session from the last session
+        # session starting at 1545 and later on weekday have 3 spot max
+        # start with these and work to earlier
+
+        target_day_in = date.today() + timedelta(days=day_ahead_in)
+        day = int(target_day_in.strftime("%w"))
+        # change target_day into input format
+        target_day_in = target_day_in.strftime('%m/%d/%Y')
+
+        max_session_by_day = [4, 7, 7, 8, 8, 8, 7]
+        if day == 0 or day == 6:
+            # weekend
+            sessions_book = 1
+        else:
+            # weekday
+            sessions_book = 2
+        session_one = max_session_by_day[day] - sessions_book
+
+        # under development
+        # if day == 3 or day == 4:
+        #     sessions_book = 1
+        #     session_one = max_session_by_day[day]
+
+        return session_one, sessions_book, target_day_in
+
     if pre_login:
         driver.get("https://movelearnplay.edmonton.ca/COE/public/Logon/Logon")
         login()
-    sessions_to_book = 1
-    days_ahead = 14
+    # construct location link based on the choice
+    location_num = 1
+    location_link = select_location(location_num)
+    driver.get(location_link)
+
+    days_ahead = 1
+    first_session, sessions_to_book, target_day = session_select(days_ahead)
+
     if test:
         # available test dates 20+
-        # current day ahead point to oct 22
-        # Need to cancel all of: oct 22 23 27 29
-        days_ahead = 14
-
-    target_day = date.today() + timedelta(days=days_ahead)
-    # default add 14 days, for programming may set to be closer
-
-    date_of_target_day = target_day.strftime("%w")
-    if debug:
-        print("date of target day: ", date_of_target_day)
-
-    session = session_selector(date_of_target_day)
-
-    if test:
-        # for testing
+        # current day ahead point to oct
+        # Need to cancel all of: 11-05 morning,
+        # cancel queue: Oct
+        # may be good to call to cancel
+        days_ahead = 2
+        first_session, sessions_to_book, target_day = session_select(days_ahead)
+        first_session = 6  # to be changed every successful confirmation
         sessions_to_book = 2
-        session = 1  # to be changed every successful confirmation
 
-    session_list = make_session_list(sessions_to_book, session)
-    # session_list.reverse()
+    session_list = make_session_list(first_session, sessions_to_book)
+
+    # default add 14 days, for programming may set to be closer
+    # date_of_target_day = target_day.strftime("%w")
 
     # change target_day into input format
-    target_day = target_day.strftime('%m/%d/%Y')
-    return session_list, target_day
+    # target_day = target_day.strftime('%m/%d/%Y')
 
-
-def session_selector(date_of_target_day):
-    # assuming booking 2 sessions
-    # branch may change to total number of sessions and then subtract to get last 2 or 3
-    if date_of_target_day == "0":
-        # Sunday
-        print("in Sunday")
-        session = 3
-    elif date_of_target_day == "1":
-        # Mon
-        print("in Monday")
-        session = 6
-    elif date_of_target_day == "2":
-        # Tues
-        print("in Tuesday")
-        session = 6
-    elif date_of_target_day == "3":
-        # Wed
-        print("in Wednesday")
-        session = 7
-    elif date_of_target_day == "4":
-        # Thurs
-        print("in Thursday")
-        session = 7
-    elif date_of_target_day == "5":
-        # Fri
-        print("in Friday")
-        session = 7
-    elif date_of_target_day == "6":
-        # Sat
-        print("in Saturday")
-        session = 4
-    else:
-        session = 3
-    return session
+    print(session_list, target_day, location_link)
+    return session_list, target_day, location_link
 
 
 def standby():
+    # wait a certain amount of time and go to target webpage
+    # submit date request return list of booking items
     now = datetime.now()
     if test:
-        today830 = now.replace(hour=7, minute=59, second=59, microsecond=0)
+        today830 = now.replace(hour=6, minute=25, second=50, microsecond=0)
     else:
-        today830 = now.replace(hour=8, minute=29, second=58, microsecond=0)
+        today830 = now.replace(hour=8, minute=29, second=50, microsecond=0)
         # use a close time to test the while
 
     while now < today830:
@@ -125,20 +155,11 @@ def standby():
         now = datetime.now()
 
 
-def make_session_list(sessions_to_book, session):
-    session_list = [session]
-    sessions_to_book -= 1
-    while sessions_to_book > 0:
-        session += 1
-        session_list.append(session)
-        sessions_to_book -= 1
-    return session_list
-
-
-def reserve(session_list, target_day):
+def reserve(session_list, target_day, location_link):
+    # assumes booking links already established proceed to click on it with condition permitting
     orig_list_size = len(session_list)
     attempt = 0
-    max_try = len(session_list) + 8
+    max_try = len(session_list) + 10
     while len(session_list) > 0:
         # while more sessions to be booked
         attempt += 1
@@ -146,7 +167,11 @@ def reserve(session_list, target_day):
             print("attempt: ", attempt)
             print(datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
             print("to be booked session list: ", session_list)
-        session_list = book_session(session_list, target_day)
+        book_links = get_book_link(location_link, target_day)
+        if book_links == 0:
+            print("error in reserve with book link")
+            return 0
+        session_list = book_session(session_list, location_link, book_links)
         # print(len(session_list), session_list, min(session_list))
         if attempt > max_try:
             if debug:
@@ -167,7 +192,7 @@ def reserve(session_list, target_day):
 
 
 def cart_is_empty():
-    driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
+    driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket")
     try:
         driver.find_element_by_xpath("//*[contains(text(),'Your Cart is currently empty')]")
         # element=driver.find_element_by_partial_link_text("Your Cart is currently empty")
@@ -177,33 +202,26 @@ def cart_is_empty():
     return 1
 
 
-def book_session(session_list, target_day):
-    # assume target_day is entered and submit clicked, ready to click on 'book now'
+def book_session(session_list, location_link, book_links):
+    # assume ready to click on 'book now'
 
-    driver.get("https://movelearnplay.edmonton.ca/COE/public/category/browse/TCRCCOURTBAD")
-    # try:
-    #     start_date_box = WebDriverWait(driver, 10).until(
-    #         ex_cond.presence_of_element_located((By.ID, "StartDate"))
-    #     )
-    #     print(start_date_box)
-    # except Exception as e:
-    #     print("Oops!", e.__class__, "occurred.")
-    #     print("cant find date box")
-    #     driver.get("https://movelearnplay.edmonton.ca/COE/public/category/browse/TCRCCOURTBAD")
-    if test:
-        end_date_box = driver.find_element_by_id("EndDate")
-        end_date_box.clear()
-        end_date_box.send_keys(target_day)
-        end_date_box.send_keys(Keys.RETURN)
-    start_date_box = driver.find_element_by_id("StartDate")
-    start_date_box.clear()
-    start_date_box.send_keys(target_day)
-    start_date_box.send_keys(Keys.RETURN)
-    start_date_box.send_keys(Keys.RETURN)
-    if debug:
-        # print(session_list)
-        print(driver.find_element_by_class_name("table").text)
-    links = driver.find_elements_by_class_name("BookNow")
+    # driver.get(location_link)
+    # if test:
+    #     end_date_box = driver.find_element_by_id("EndDate")
+    #     end_date_box.clear()
+    #     end_date_box.send_keys(target_day)
+    #     end_date_box.send_keys(Keys.RETURN)
+    # start_date_box = driver.find_element_by_id("StartDate")
+    # start_date_box.clear()
+    # start_date_box.send_keys(target_day)
+    # start_date_box.send_keys(Keys.RETURN)
+    # start_date_box.send_keys(Keys.RETURN)
+    # if debug:
+    #     # print(session_list)
+    #     print(driver.find_element_by_class_name("table").text)
+    # links = driver.find_elements_by_class_name("BookNow")
+
+    links = book_links
 
     if len(links) == 0:
         # no available booking spots
@@ -230,7 +248,7 @@ def book_session(session_list, target_day):
         # return with original list
         if debug:
             print("specific session becomes unavailable ")
-        print("Oops!", e.__class__, "occurred.")
+        print(str(e))
         session_list.insert(0, current_session)
         return session_list
     try:
@@ -241,11 +259,11 @@ def book_session(session_list, target_day):
         qty.send_keys("1")
         qty.send_keys(Keys.RETURN)
     except Exception as e:
-        print("Oops!", e.__class__, "occurred.")
+        print(str(e))
         print("cant find price quantity to enter")
         time.sleep(5)
 
-    # driver.get("https://movelearnplay.edmonton.ca/COE/public/category/browse/TCRCCOURTBAD")
+    # driver.get(location_link)
 
     if len(session_list) == 0:
         if cancel:
@@ -253,8 +271,7 @@ def book_session(session_list, target_day):
         else:
             checkout()
         return session_list
-
-    driver.get("https://movelearnplay.edmonton.ca/COE/public/category/browse/TCRCCOURTBAD")
+    driver.get(location_link)
     return session_list
 
 
@@ -274,7 +291,7 @@ def cancel_cart():
             )
             cancel_cart_button.send_keys(Keys.RETURN)
         except Exception as e:
-            print("Oops!", e.__class__, "occurred.")
+            print(str(e))
             print("in bulk cancel")
             time.sleep(600)
         time.sleep(2)
@@ -296,22 +313,34 @@ def cancel_cart():
                     ActionChains(driver).move_to_element(remove_buttons[rm - 1]).perform()
                 except Exception as e:
                     if debug:
-                        print("Oops!", e.__class__, "occurred.")
-                        print("scroll stuff")
+                        print(str(e))
+                        print("scroll stuff in cancel cart")
                 time.sleep(1)
                 remove_buttons[rm - 1].click()
         except Exception as e:
-            print("Oops!", e.__class__, "occurred.")
+            print(str(e))
             return 0
         return 1
 
 
 def login():
     email_box = driver.find_element_by_id("EmailAddress")
-    email_box.send_keys("jesse.chen@yahoo.ca")
+    email_box.send_keys(ss.user)
     pw_box = driver.find_element_by_id("Password")
-    pw_box.send_keys("AyanamiRei:0COER")
+    pw_box.send_keys(ss.pw)
     pw_box.send_keys(Keys.RETURN)
+
+
+def is_error_present():
+    try:
+        if debug:
+            print("in is_error_present")
+        WebDriverWait(driver, 180).until(ex_cond.presence_of_element_located((By.CLASS_NAME, "table")))
+        return 1
+    except Exception as e:
+        print(str(e))
+        print("except in is_error_present")
+        return 0
 
 
 def handle_cart_error():
@@ -331,8 +360,8 @@ def handle_cart_error():
 
         error_list = []
         for t_row in range(2, (num_rows + 1), 2):
-            final_xpath = before_xpath_1 + str(t_row) + after_xpath +\
-                         before_xpath_2 + str(1) + after_xpath
+            final_xpath = before_xpath_1 + str(t_row) + after_xpath + \
+                          before_xpath_2 + str(1) + after_xpath
             cell_text = driver.find_element_by_xpath(final_xpath).text
             if "Error" in cell_text:
                 error_list.append(int(t_row / 2))
@@ -345,42 +374,44 @@ def handle_cart_error():
             try:
                 ActionChains(driver).move_to_element(remove_buttons[rm - 1]).perform()
             except Exception as e:
-                print("Oops!", e.__class__, "occurred.")
+                print(str(e))
                 print("in removing error session place")
             time.sleep(1)
             remove_buttons[rm - 1].click()
     except Exception as e:
-        print("Oops!", e.__class__, "occurred.")
+        print(str(e))
+        print("handle cart wait exception")
         if debug:
             "error handle time out"
         return 0
 
-    driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
-    time.sleep(1)
+    # driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
+    # time.sleep(1)
     return 1
 
 
 def display_basket():
     driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket")
-    if debug:
-        try:
-            print(driver.find_element_by_class_name("table").text)
-        except Exception as e:
-            print("Oops!", e.__class__, "occurred.")
-            print("not able to print cart table after add quantity")
+    print(datetime.now().strftime("display basket: %m/%d/%Y, %H:%M:%S"))
+    try:
+        print(driver.find_element_by_class_name("table").text)
+    except Exception as e:
+        print(str(e))
+        print("not able to print basket")
 
 
 def checkout():
     if debug:
         display_basket()
     confirmation = 0
-    # assuming cart is non-empty
 
     # ISSUE: after last session added to cart, not automatically jumping to the checkout page.
     # time.sleep(1)
-    driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
-    time.sleep(1)
     print(datetime.now().strftime("submit order: %m/%d/%Y, %H:%M:%S"))
+    # experimental get a basket link before checkout link
+    driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket")
+    time.sleep(1)
+    driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
 
     if not pre_login:
         try:
@@ -391,7 +422,7 @@ def checkout():
                 ex_cond.presence_of_element_located((By.ID, "EmailAddress"))
             )
         except Exception as e:
-            print("Oops!", e.__class__, "occurred.")
+            print(str(e))
             print("cant find email to enter, trying to checkout again")
             driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
             time.sleep(1)
@@ -404,40 +435,42 @@ def checkout():
     # ISSUE
     # try to find error message
     try:
-        assert handle_cart_error() == 1
+        if debug:
+            print(datetime.now().strftime("submit order: %m/%d/%Y, %H:%M:%S"))
+        assert is_error_present() == 1
+        handle_cart_error()
     except Exception as e:
-        print("Oops!", e.__class__, "occurred.")
+        print(str(e))
         print("no error to handle")
-    else:
-        driver.get("https://movelearnplay.edmonton.ca/COE/public/Basket/CheckoutBasket")
-        time.sleep(1)
 
     # may or may not get a request to agree to condition
     try:
         element = driver.find_elements_by_css_selector("input[type='radio'][id='AGREE']")[0]
     except Exception as e:
-        print("Oops!", e.__class__, "occurred.")
+        print(str(e))
+        print("after radio")
         # no agree condition, submit order
         while confirmation == 0:
             try:
                 if debug:
                     print("waiting for confirmation")
-                element = WebDriverWait(driver, 120).until(
+                element = WebDriverWait(driver, 180).until(
                     ex_cond.presence_of_element_located((By.ID, "BasketConfirmed"))
                 )
                 print(element.text)
                 confirmation = 1
             except Exception as e:
-                print("Oops!", e.__class__, "occurred.")
+                print(str(e))
                 if debug:
                     print("did not find basket confirmation")
                 time.sleep(60)
+        print("end of confirmation")
         return ()
 
     try:
         ActionChains(driver).move_to_element(element).perform()
     except Exception as e:
-        print("Oops!", e.__class__, "occurred.")
+        print(str(e))
         time.sleep(2)
         print("scroll stuff")
 
@@ -453,20 +486,60 @@ def checkout():
         element = driver.find_element_by_id("BasketConfirmed")
         print(element.text)
     except Exception as e:
-        print("Oops!", e.__class__, "occurred.")
+        print(str(e))
         if debug:
             print("need manual assistance")
         time.sleep(180)
 
 
+def get_book_link(location_link, target_day):
+    driver.get(location_link)
+    # links = []
+    try:
+        if test:
+            # print(links)
+            end_date_box = driver.find_element_by_id("EndDate")
+            end_date_box.clear()
+            end_date_box.send_keys(target_day)
+            end_date_box.send_keys(Keys.RETURN)
+
+        start_date_box = driver.find_element_by_id("StartDate")
+        start_date_box.clear()
+        start_date_box.send_keys(target_day)
+        start_date_box.send_keys(Keys.RETURN)
+        start_date_box.send_keys(Keys.RETURN)
+    except Exception as e:
+        print('error in get_book_link')
+        print(e)
+        return 0
+    if debug:
+        # print(session_list)
+        print(driver.find_element_by_class_name("table").text)
+    links = driver.find_elements_by_class_name("BookNow")
+    while len(links) == 0:
+        # no available booking spots
+        if debug:
+            print("no links to book yet")
+            print(datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+            print(driver.find_element_by_class_name("table").text)
+        start_date_box = driver.find_element_by_id("StartDate")
+        start_date_box.send_keys(Keys.RETURN)
+        start_date_box.send_keys(Keys.RETURN)
+        links = driver.find_elements_by_class_name("BookNow")
+    return links
+
+
 def main():
-    session_list, target_day = pre_process()
+    session_list, target_day, location_link = pre_process()
     standby()
     print(datetime.now().strftime("start reserve time: %m/%d/%Y, %H:%M:%S"))
-    reserve(session_list, target_day)
+    reserve(session_list, target_day, location_link)
     print(datetime.now().strftime("end reserve time: %m/%d/%Y, %H:%M:%S"))
-    time.sleep(60)
-    driver.quit()
+    time.sleep(5)
+    driver.get("https://movelearnplay.edmonton.ca/COE/members")
+    time.sleep(5)
 
 
-main()
+if __name__ == '__main__':
+    main()
+    webdriver.Chrome.close(driver)

@@ -5,9 +5,14 @@ badminton reservation program for city of edmonton website
 only book available courts, booking list only targeting book now items in the table
 booking consecutive available sessions.
 
+# Requirement 
+Selenium
+Chrome
 
-# TODO
- add logging feature
+
+
+# TODO:
+ add logging feature 
  add unit testing stuff
  log the output for analysis
  branch, adding other rec centers
@@ -18,11 +23,24 @@ add logging feature
 
 Edit and TODO History
 
+2021-06-08
+change booking link after covid
+add try/except block for getting start date etc. raise exception when nothing to see
+
+2020-10-19
+branch, adding other rec centers -- Done 
+standby using timer and only click on submit button instead of reloading webpage -- DONE
+
+
+2020-10-17
+print cart items before submit -- DONE
+branch, pre log in before, add sessions -- DONE
+
 2020-10-12
 
-# examine booking issue conditions each time to check for resubmission. -- Done need testing
-# need to resolve incomplete order after submission -- Done need testing
-# look for error as the cart becomes unavailable and cancel the unavailable item -- Done need testing
+examine booking issue conditions each time to check for resubmission. -- Done need testing
+need to resolve incomplete order after submission -- Done need testing
+look for error as the cart becomes unavailable and cancel the unavailable item -- Done need testing
 
 
 2020-10-06
