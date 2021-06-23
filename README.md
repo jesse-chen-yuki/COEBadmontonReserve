@@ -9,9 +9,8 @@ booking consecutive available sessions.
 Selenium
 Chrome
 
-
-
 # TODO:
+ change to async wait after cart checkout
  add logging feature 
  add unit testing stuff
  log the output for analysis
@@ -19,9 +18,12 @@ Chrome
  change in strategy: book 2 only, wait for 20 min for second round manual
 
 add choice of facilities (TCRC, Commonwealth, Meadows) to make reservations
-add logging feature
 
 Edit and TODO History
+
+2021-06-19
+complete new booking procedure with row by row examination
+need testing
 
 2021-06-08
 change booking link after covid
