@@ -1,5 +1,6 @@
 # COEBadmintonReserve
-badminton reservation program for city of edmonton website
+badminton reservation program for city of edmonton website during COVID restriction period
+Not required to use as of July 2021
 
 # Assumptions
 only book available courts, booking list only targeting book now items in the table
